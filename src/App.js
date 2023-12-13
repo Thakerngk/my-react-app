@@ -1,9 +1,11 @@
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 //import Greeting from './Greeting';
 import { Greeting } from './Greeting';
 import { PeopleList} from './PeopleList';
-
+import { CounterButton } from './CounterButton';
+import { CongratulationsMessage } from './CongratulationsMessage';
 const people = [{
   name: 'John',
   age: 21,
@@ -23,10 +25,21 @@ const displayAlert = () => {alert("Pascal Hello!");}
 function App() {
   let adjective = 'cool';
   let url = "https://reactjs.org";
+
+  const [numberOfClicks, setNumberOfClicks] = useState(0);
+  const [hideMessage, setHideMessage] = useState(false);
+
+  const increment = () => setNumberOfClicks(numberOfClicks + 1);
+
   return (
     <div className="App">
       <header className="App-header">
-        <Greeting name="Thakerng" numberOfMessages={0}/>
+        {hideMessage 
+          ? null 
+          : <CongratulationsMessage numberOfClicks={numberOfClicks} threshold={10} onHide={() => setHideMessage(true)}/>}
+        {/* <CongratulationsMessage numberOfClicks={numberOfClicks} threshold={10}/> */}
+        <CounterButton onIncrement={increment} numberOfClicks={numberOfClicks}/>
+{/*         <Greeting name="Thakerng" numberOfMessages={0}/>
         <PeopleList people={people}/>
         <p>
           This is so {adjective}.
@@ -40,7 +53,7 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
-        </a>
+        </a> */}
       </header>
     </div>
   );
