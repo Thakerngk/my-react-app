@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router,Route, Routes, Link } from 'react-router-dom';
+import { HomePage, CounterButtonPage, PeopleListPage, NotFoundPage, ProtectedPage} from './pages';
 import logo from './logo.svg';
 import './App.css';
 //import Greeting from './Greeting';
@@ -23,39 +25,33 @@ const people = [{
 const displayAlert = () => {alert("Pascal Hello!");}
 
 function App() {
-  let adjective = 'cool';
-  let url = "https://reactjs.org";
-
   const [numberOfClicks, setNumberOfClicks] = useState(0);
   const [hideMessage, setHideMessage] = useState(false);
 
   const increment = () => setNumberOfClicks(numberOfClicks + 1);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        {hideMessage 
-          ? null 
-          : <CongratulationsMessage numberOfClicks={numberOfClicks} threshold={10} onHide={() => setHideMessage(true)}/>}
-        {/* <CongratulationsMessage numberOfClicks={numberOfClicks} threshold={10}/> */}
-        <CounterButton onIncrement={increment} numberOfClicks={numberOfClicks}/>
-{/*         <Greeting name="Thakerng" numberOfMessages={0}/>
-        <PeopleList people={people}/>
-        <p>
-          This is so {adjective}.
-        </p>
-        <button onClick={() => alert("Hello")}>Hello</button>
-        <button onClick={displayAlert}>Alert me!</button>
-        <a
-          className="App-link"
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a> */}
-      </header>
-    </div>
+    <div className='App'>
+      <Router>
+      <Link to='/counter'>Go to Counter Page</Link>
+      <Link to='/people-list'>Go to People List Page</Link>
+
+      <Routes>
+          <Route path="/" element={<HomePage/>} exact>
+            {/* <HomePage /> */}
+          </Route>
+          <Route path="/counter" element={<CounterButtonPage/>}>
+            {/* <CounterButtonPage /> */}
+          </Route>   
+          <Route path="/people-list" element={<PeopleListPage/>}>
+            {/* <PeopleListPage /> */}
+          </Route> 
+          <Route path="/protected" element={<ProtectedPage/>}>
+            </Route>
+          <Route path="*" element={<NotFoundPage/>}/>
+        </Routes>
+      </Router>
+    </div>  
   );
 }
 
